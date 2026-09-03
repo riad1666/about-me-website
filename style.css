@@ -14,7 +14,8 @@
     --primary-color: #0A84FF; /* iOS Blue */
     --banner-bg: #FF3B30; /* iOS Red */
     --btn-call: #0A84FF;
-    --btn-whatsapp: #34C759;
+    --btn-message: #34C759;
+    --btn-whatsapp: #25D366;
     --btn-kakao: #FAE100;
     --btn-kakao-text: #3C1E1E;
 }
@@ -204,20 +205,22 @@ body {
 .action-buttons {
     display: flex;
     justify-content: center;
-    gap: 15px;
-    padding: 20px;
+    gap: 10px;
+    padding: 18px 16px;
 }
 .btn {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 90px;
-    height: 90px;
-    border-radius: 20px;
+    flex: 1;
+    min-width: 0;
+    max-width: 88px;
+    height: 86px;
+    border-radius: 18px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
@@ -228,8 +231,8 @@ body {
     transform: scale(0.95);
 }
 .btn i {
-    font-size: 1.8rem;
-    margin-bottom: 8px;
+    font-size: 1.65rem;
+    margin-bottom: 6px;
     filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.28));
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
 }
@@ -241,28 +244,37 @@ body {
 .btn-call {
     background-color: var(--btn-call);
     color: white;
-    box-shadow: 0 8px 22px rgba(10, 132, 255, 0.35);
+    box-shadow: 0 8px 20px rgba(10, 132, 255, 0.35);
 }
 .btn-call:hover {
-    box-shadow: 0 12px 28px rgba(10, 132, 255, 0.45);
+    box-shadow: 0 12px 26px rgba(10, 132, 255, 0.45);
+}
+
+.btn-message {
+    background-color: var(--btn-message);
+    color: white;
+    box-shadow: 0 8px 20px rgba(52, 199, 89, 0.35);
+}
+.btn-message:hover {
+    box-shadow: 0 12px 26px rgba(52, 199, 89, 0.45);
 }
 
 .btn-whatsapp {
     background-color: var(--btn-whatsapp);
     color: white;
-    box-shadow: 0 8px 22px rgba(52, 199, 89, 0.35);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
 }
 .btn-whatsapp:hover {
-    box-shadow: 0 12px 28px rgba(52, 199, 89, 0.45);
+    box-shadow: 0 12px 26px rgba(37, 211, 102, 0.45);
 }
 
 .btn-kakao {
     background-color: var(--btn-kakao);
     color: var(--btn-kakao-text);
-    box-shadow: 0 8px 22px rgba(250, 225, 0, 0.4);
+    box-shadow: 0 8px 20px rgba(250, 225, 0, 0.4);
 }
 .btn-kakao:hover {
-    box-shadow: 0 12px 28px rgba(250, 225, 0, 0.52);
+    box-shadow: 0 12px 26px rgba(250, 225, 0, 0.52);
 }
 .btn-kakao i {
     filter: drop-shadow(0 2px 5px rgba(60, 30, 30, 0.25));
