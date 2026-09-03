@@ -144,11 +144,46 @@
                         <div id="qrcode"></div>
                     </div>
                 </div>
-                <p style="text-align:center; color: var(--text-muted); font-size: 0.85rem; padding: 0 20px;" data-i18n="qrHint">Scan this QR code to view this page on your device.</p>
+                <p class="qr-hint" data-i18n="qrHint">Scan this QR code to view this page on your device.</p>
 
-                <button class="share-btn" id="shareLinkBtn" style="margin-top:20px;">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> <span data-i18n="shareLink">Share Link</span>
-                </button>
+                <!-- Scan Section Sharing Options -->
+                <div class="scan-actions-wrapper">
+                    <div class="scan-btn-row">
+                        <button class="share-btn share-link-btn" id="shareLinkBtn">
+                            <i class="fa-solid fa-link"></i> <span data-i18n="shareAsLink">Share as Link</span>
+                        </button>
+                        <button class="share-btn share-qr-btn" id="shareQrToggleBtn">
+                            <i class="fa-solid fa-qrcode"></i> <span data-i18n="shareAsQr">Share as QR</span>
+                        </button>
+                    </div>
+
+                    <!-- Options revealed when "Share as QR" is selected -->
+                    <div class="qr-options-panel" id="qrOptionsPanel">
+                        <div class="qr-options-header">
+                            <span class="qr-options-title" data-i18n="qrOptionsTitle">QR Code Options</span>
+                        </div>
+                        <div class="qr-options-actions">
+                            <button class="qr-action-btn" id="downloadQrBtn">
+                                <div class="qr-action-icon">
+                                    <i class="fa-solid fa-arrow-down-to-line"></i>
+                                </div>
+                                <div class="qr-action-info">
+                                    <strong data-i18n="downloadQrPng">Download as PNG</strong>
+                                    <small data-i18n="downloadQrDesc">Save high-res image</small>
+                                </div>
+                            </button>
+                            <button class="qr-action-btn" id="shareQrDirectBtn">
+                                <div class="qr-action-icon">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                </div>
+                                <div class="qr-action-info">
+                                    <strong data-i18n="shareQr">Share QR</strong>
+                                    <small data-i18n="shareQrDesc">Share image directly</small>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- PROFILE TAB -->

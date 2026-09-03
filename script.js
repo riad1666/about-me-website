@@ -26,6 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
             shareMyId: "Share My ID",
             qrHint: "Scan this QR code to view this page on your device.",
             shareLink: "Share Link",
+            shareAsLink: "Share as Link",
+            shareAsQr: "Share as QR",
+            qrOptionsTitle: "QR Code Options",
+            downloadQrPng: "Download as PNG",
+            downloadQrDesc: "Save high-res image",
+            shareQr: "Share QR",
+            shareQrDesc: "Share image directly",
+            linkCopiedToast: "Link copied to clipboard!",
+            qrDownloadedToast: "QR Code downloaded!",
             detailedBio: "Detailed Bio",
             studentIdLabel: "ID: #202617310",
             aboutMe: "ABOUT ME",
@@ -69,6 +78,15 @@ document.addEventListener('DOMContentLoaded', () => {
             shareMyId: "내 ID 공유하기",
             qrHint: "이 QR 코드를 스캔하여 기기에서 이 페이지를 확인하세요.",
             shareLink: "링크 공유",
+            shareAsLink: "링크로 공유",
+            shareAsQr: "QR 코드로 공유",
+            qrOptionsTitle: "QR 코드 옵션",
+            downloadQrPng: "PNG로 다운로드",
+            downloadQrDesc: "고화질 이미지 저장",
+            shareQr: "QR 공유하기",
+            shareQrDesc: "QR 이미지 직접 공유",
+            linkCopiedToast: "링크가 클립보드에 복사되었습니다!",
+            qrDownloadedToast: "QR 코드가 다운로드되었습니다!",
             detailedBio: "상세 이력",
             studentIdLabel: "학번: #202617310",
             aboutMe: "내 소개",
@@ -167,20 +185,209 @@ document.addEventListener('DOMContentLoaded', () => {
         correctLevel : QRCode.CorrectLevel.H
     });
 
-    // --- Share Link Button ---
-    const shareLinkBtn = document.getElementById('shareLinkBtn');
-    shareLinkBtn.addEventListener('click', () => {
-        if (navigator.share) {
-            navigator.share({
-                title: 'MOLLIK MD RIAD - Digital ID',
-                url: baseUrl
-            }).catch(console.error);
-        } else {
-            navigator.clipboard.writeText(baseUrl).then(() => {
-                alert(currentLang === 'en' ? 'Link copied to clipboard!' : '링크가 클립보드에 복사되었습니다!');
-            });
+    // --- Toast Notification Helper ---
+    function showToast(message) {
+        let toast = document.getElementById('appToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'appToast';
+            toast.className = 'app-toast';
+            const appContainer = document.querySelector('.app-container') || document.body;
+            appContainer.appendChild(toast);
         }
-    });
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2500);
+    }
+
+    // --- Helper: Extract QR Image Data URL ---
+    function getQrDataUrl() {
+        const container = document.getElementById('qrcode');
+        if (!container) return null;
+        const canvas = container.querySelector('canvas');
+        if (canvas) {
+            try {
+                return canvas.toDataURL('image/png');
+            } catch (e) {
+                console.error('Canvas export error:', e);
+            }
+        }
+        const img = container.querySelector('img');
+        if (img && img.src) {
+            return img.src;
+        }
+        return null;
+    }
+
+    // --- Helper: Generate Crisp QR Image Blob with Margins ---
+    function generateHighResQrBlob() {
+        return new Promise((resolve) => {
+            const dataUrl = getQrDataUrl();
+            if (!dataUrl) {
+                resolve(null);
+                return;
+            }
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {
+                const padding = 28;
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth || img.width || 200;
+                canvas.height = img.naturalHeight || img.height || 200;
+                
+                // Outer canvas with margin for scan reliability
+                const paddedCanvas = document.createElement('canvas');
+                paddedCanvas.width = canvas.width + padding * 2;
+                paddedCanvas.height = canvas.height + padding * 2;
+                const ctx = paddedCanvas.getContext('2d');
+                
+                // Clean white background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, paddedCanvas.width, paddedCanvas.height);
+                ctx.drawImage(img, padding, padding, canvas.width, canvas.height);
+                
+                paddedCanvas.toBlob((blob) => {
+                    resolve(blob);
+                }, 'image/png');
+            };
+            img.onerror = () => resolve(null);
+            img.src = dataUrl;
+        });
+    }
+
+    // --- Action: Download QR Code as PNG ---
+    async function downloadQrAsPng() {
+        const blob = await generateHighResQrBlob();
+        const filename = 'Mollik_Md_Riad_QR.png';
+        if (blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        } else {
+            const dataUrl = getQrDataUrl();
+            if (!dataUrl) return;
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = dataUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+        showToast(translations[currentLang].qrDownloadedToast || 'QR Code downloaded!');
+    }
+
+    // --- Action: Share QR Image Directly ---
+    async function shareQrDirectly() {
+        const blob = await generateHighResQrBlob();
+        if (blob && navigator.canShare) {
+            const file = new File([blob], 'Mollik_Md_Riad_QR.png', { type: 'image/png' });
+            if (navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        title: 'MOLLIK MD RIAD - QR Code',
+                        text: 'Scan this QR code to view Mollik Md Riad\'s Digital ID Card',
+                        files: [file]
+                    });
+                    return;
+                } catch (err) {
+                    if (err.name === 'AbortError') return;
+                    console.warn('Native file share cancelled or failed, falling back:', err);
+                }
+            }
+        }
+
+        // If direct file sharing is unavailable on browser/device, try link sharing
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'MOLLIK MD RIAD - Digital ID',
+                    text: 'Mollik Md Riad - Digital ID Card',
+                    url: baseUrl
+                });
+                return;
+            } catch (err) {
+                if (err.name === 'AbortError') return;
+            }
+        }
+
+        // Fallback: download the image and alert user
+        await downloadQrAsPng();
+    }
+
+    // --- Scan Tab Event Listeners ---
+    const shareLinkBtn = document.getElementById('shareLinkBtn');
+    const shareQrToggleBtn = document.getElementById('shareQrToggleBtn');
+    const qrOptionsPanel = document.getElementById('qrOptionsPanel');
+    const downloadQrBtn = document.getElementById('downloadQrBtn');
+    const shareQrDirectBtn = document.getElementById('shareQrDirectBtn');
+
+    // 1. Share as Link
+    if (shareLinkBtn) {
+        shareLinkBtn.addEventListener('click', async () => {
+            if (qrOptionsPanel) {
+                qrOptionsPanel.classList.remove('show');
+                shareQrToggleBtn?.classList.remove('active');
+            }
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'MOLLIK MD RIAD - Digital ID',
+                        url: baseUrl
+                    });
+                    return;
+                } catch (err) {
+                    if (err.name === 'AbortError') return;
+                }
+            }
+
+            // Clipboard fallback
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(baseUrl).then(() => {
+                    showToast(translations[currentLang].linkCopiedToast || 'Link copied to clipboard!');
+                }).catch(() => {
+                    prompt('Copy link:', baseUrl);
+                });
+            } else {
+                prompt('Copy link:', baseUrl);
+            }
+        });
+    }
+
+    // 2. Share as QR (Toggles QR Options)
+    if (shareQrToggleBtn && qrOptionsPanel) {
+        shareQrToggleBtn.addEventListener('click', () => {
+            const isShowing = qrOptionsPanel.classList.toggle('show');
+            shareQrToggleBtn.classList.toggle('active', isShowing);
+            if (isShowing) {
+                qrOptionsPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    }
+
+    // 3. Download QR Code PNG
+    if (downloadQrBtn) {
+        downloadQrBtn.addEventListener('click', () => {
+            downloadQrAsPng();
+        });
+    }
+
+    // 4. Share QR Image
+    if (shareQrDirectBtn) {
+        shareQrDirectBtn.addEventListener('click', () => {
+            shareQrDirectly();
+        });
+    }
 
     // --- Download vCard ---
     const downloadVCardBtn = document.getElementById('downloadVCard');

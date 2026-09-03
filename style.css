@@ -315,21 +315,215 @@ body {
     width: 200px;
     height: 200px;
 }
+.qr-hint {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    padding: 0 20px;
+    line-height: 1.4;
+}
+
+.scan-actions-wrapper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.scan-btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
 .share-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    width: calc(100% - 40px);
-    margin: 0 20px;
-    padding: 15px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
+    gap: 8px;
+    width: 100%;
+    margin: 0;
+    padding: 14px 10px;
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    border: 1.5px solid var(--border-color);
+    border-radius: 14px;
+    font-size: 0.92rem;
     font-weight: 600;
     cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.share-btn:active {
+    transform: translateY(0);
+}
+
+.share-btn.share-link-btn {
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    border-color: var(--border-color);
+}
+
+.share-btn.share-link-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.share-btn.share-qr-btn {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}
+
+.share-btn.share-qr-btn:hover {
+    background-color: #0071e3;
+}
+
+.share-btn.share-qr-btn.active {
+    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.35);
+}
+
+/* QR Sub-Options Panel */
+.qr-options-panel {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 16px;
+    animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.qr-options-panel.show {
+    display: flex;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.qr-options-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.qr-options-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+.qr-options-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.qr-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    background: var(--app-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-main);
+}
+
+.qr-action-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.qr-action-btn:active {
+    transform: translateY(0);
+}
+
+.qr-action-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(10, 132, 255, 0.1);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.qr-action-btn:hover .qr-action-icon {
+    background: var(--primary-color);
+    color: #ffffff;
+}
+
+.qr-action-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.qr-action-info strong {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.qr-action-info small {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+/* Toast Notification */
+.app-toast {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(28, 28, 30, 0.9);
+    color: #ffffff;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 999;
+    white-space: nowrap;
+}
+
+[data-theme="dark"] .app-toast {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000000;
+}
+
+.app-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 /* --- PROFILE TAB SPECIFICS --- */
