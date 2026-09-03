@@ -284,7 +284,19 @@ body {
 .contact-details { flex: 1; }
 .contact-details h4 { font-size: 1.05rem; margin-bottom: 2px; }
 .contact-details .relation { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 4px; }
-.contact-details .phone { font-size: 0.9rem; font-weight: 500; }
+.contact-details .phone,
+.contact-details .phone a,
+.contact-details a[href^="tel"] {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+    text-decoration: none;
+}
+[data-theme="dark"] .contact-details .phone,
+[data-theme="dark"] .contact-details .phone a,
+[data-theme="dark"] .contact-details a[href^="tel"] {
+    color: #ffffff !important;
+}
 .contact-call-btn {
     width: 40px;
     height: 40px;
