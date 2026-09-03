@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOLLIK MD RIAD - Digital ID</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        
+        <!-- Top App Bar -->
+        <header class="top-bar">
+            <button class="icon-btn" id="langToggleBtn" title="Change Language">
+                <i class="fa-solid fa-globe"></i>
+            </button>
+            <span class="app-title" data-i18n="appTitle">Digital ID Card</span>
+            <button class="icon-btn" id="themeToggleBtn" title="Toggle Dark/Light Mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            
+            <!-- HOME TAB -->
+            <section id="tab-home" class="tab-content active">
+                <div class="if-found-banner" data-i18n="ifFound">
+                    IF FOUND PLEASE CONTACT ME
+                </div>
+
+                <div class="profile-header">
+                    <div class="profile-img-container">
+                        <img src="images/profile.jpg" alt="MOLLIK MD RIAD" class="profile-img">
+                    </div>
+                    <h1 class="name" data-i18n="name">MOLLIK MD RIAD</h1>
+                    <p class="tagline" data-i18n="student">Student</p>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="tel:+821044499221" class="btn btn-call">
+                        <i class="fa-solid fa-phone"></i>
+                        <span data-i18n="call">Call</span>
+                    </a>
+                    <a href="https://wa.me/8801925801770" class="btn btn-whatsapp" target="_blank">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <span data-i18n="whatsapp">WhatsApp</span>
+                    </a>
+                    <a href="kakaotalk://friends/addfriend?id=mollikmdriad" class="btn btn-kakao">
+                        <i class="fa-solid fa-comment"></i>
+                        <span data-i18n="kakaotalk">KakaoTalk</span>
+                    </a>
+                </div>
+
+                <div class="info-card">
+                    <h2 data-i18n="universityInfo">University Info</h2>
+                    <div class="info-row">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <span><strong data-i18n="universityLabel">University:</strong> <span data-i18n="universityName">Kangwon National University</span></span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span><strong data-i18n="deptLabel">Dept:</strong> <span data-i18n="deptName">Global Convergence</span></span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fa-solid fa-book"></i>
+                        <span><strong data-i18n="majorLabel">Major:</strong> <span data-i18n="majorName">General Engineering</span></span>
+                    </div>
+                    <div class="info-row">
+                        <i class="fa-solid fa-id-card"></i>
+                        <span><strong data-i18n="idLabel">ID:</strong> 202617310</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h2 data-i18n="homeAddress">Home Address</h2>
+                    <div class="address-content">
+                        <i class="fa-solid fa-location-dot location-icon"></i>
+                        <p data-i18n="addressText">29 Chodangwon-gil,<br>Gangneung-si, Gangwon-do</p>
+                    </div>
+                    <!-- Interactive Google Map -->
+                    <div class="map-container" style="margin-top: 15px; border-radius: 12px; overflow: hidden; height: 150px;">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3161.7371900388656!2d128.91004657662053!3d37.77157831086054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3561e69b50b55555%3A0x6b63d91cfbeeb606!2s29%20Chodangwon-gil%2C%20Gangneung-si%2C%20Gangwon-do%2C%20South%20Korea!5e0!3m2!1sen!2sbd!4v1700000000000!5m2!1sen!2sbd" 
+                            width="100%" 
+                            height="150" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTACTS TAB -->
+            <section id="tab-contacts" class="tab-content">
+                <div class="page-header">
+                    <i class="fa-solid fa-users"></i> <span data-i18n="myContacts">My Contacts & Emergency</span>
+                </div>
+                
+                <button class="vcard-btn" id="downloadVCard">
+                    <i class="fa-solid fa-address-card"></i> <span data-i18n="downloadVcard">Download vCard (Save to Phone)</span>
+                </button>
+
+                <h3 class="section-subtitle" data-i18n="emergencyContacts">EMERGENCY CONTACTS</h3>
+                
+                <div class="contact-card">
+                    <div class="contact-avatar">
+                        <img src="images/contact.jpg" alt="Hassan Md Maruf">
+                    </div>
+                    <div class="contact-details">
+                        <h4>Hassan Md Maruf</h4>
+                        <p class="relation" data-i18n="roommate">Room mate</p>
+                        <p class="phone">+82 130 668 2670</p>
+                    </div>
+                    <a href="tel:+821306682670" class="contact-call-btn">
+                        <i class="fa-solid fa-phone"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- SCAN TAB -->
+            <section id="tab-scan" class="tab-content">
+                <div class="page-header">
+                    <i class="fa-solid fa-qrcode"></i> <span data-i18n="shareMyId">Share My ID</span>
+                </div>
+                
+                <div class="qr-container">
+                    <div class="qr-box">
+                        <div id="qrcode"></div>
+                    </div>
+                </div>
+                <p style="text-align:center; color: var(--text-muted); font-size: 0.85rem; padding: 0 20px;" data-i18n="qrHint">Scan this QR code to view this page on your device.</p>
+
+                <button class="share-btn" id="shareLinkBtn" style="margin-top:20px;">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> <span data-i18n="shareLink">Share Link</span>
+                </button>
+            </section>
+
+            <!-- PROFILE TAB -->
+            <section id="tab-profile" class="tab-content">
+                <div class="page-header" data-i18n="detailedBio">
+                    Detailed Bio
+                </div>
+
+                <div class="profile-header small-header">
+                    <div class="profile-img-container small-img">
+                        <img src="images/profile.jpg" alt="MOLLIK MD RIAD" class="profile-img">
+                    </div>
+                    <h1 class="name" data-i18n="name">MOLLIK MD RIAD</h1>
+                    <p class="tagline" data-i18n="student">Student</p>
+                    <p class="tagline-sub" data-i18n="studentIdLabel">ID: #202617310</p>
+                </div>
+
+                <div class="bio-section">
+                    <h3 data-i18n="aboutMe">ABOUT ME</h3>
+                    <p data-i18n="aboutText">Hello! I am Mollik Md Riad, an engineering student studying in South Korea. I am passionate about technology and software development. Feel free to reach out to me via my contact links.</p>
+                </div>
+
+                <div class="bio-section">
+                    <h3 data-i18n="skills">SKILLS</h3>
+                    <div class="tags">
+                        <span class="tag"><i class="fa-solid fa-code"></i> <span data-i18n="engineering">Engineering</span></span>
+                        <span class="tag"><i class="fa-solid fa-laptop-code"></i> <span data-i18n="coding">Coding</span></span>
+                        <span class="tag"><i class="fa-solid fa-comments"></i> <span data-i18n="communication">Communication</span></span>
+                    </div>
+                </div>
+
+                <div class="bio-section">
+                    <h3 data-i18n="hobbies">HOBBIES</h3>
+                    <div class="tags">
+                        <span class="tag"><i class="fa-solid fa-camera"></i> <span data-i18n="photography">Photography</span></span>
+                        <span class="tag"><i class="fa-solid fa-plane"></i> <span data-i18n="travel">Travel</span></span>
+                        <span class="tag"><i class="fa-solid fa-book"></i> <span data-i18n="reading">Reading</span></span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-target="tab-home">
+                <i class="fa-solid fa-house"></i>
+                <span data-i18n="navHome">Home</span>
+            </button>
+            <button class="nav-item" data-target="tab-contacts">
+                <i class="fa-solid fa-address-book"></i>
+                <span data-i18n="navContacts">Contacts</span>
+            </button>
+            <button class="nav-item" data-target="tab-scan">
+                <i class="fa-solid fa-expand"></i>
+                <span data-i18n="navScan">Scan</span>
+            </button>
+            <button class="nav-item" data-target="tab-profile">
+                <i class="fa-solid fa-user"></i>
+                <span data-i18n="navProfile">Profile</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- Custom Script -->
+    <script src="script.js"></script>
+</body>
+</html>
