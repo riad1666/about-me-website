@@ -136,6 +136,43 @@ body {
     border-radius: 50%;
     padding: 4px;
     background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+.profile-img-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(10, 132, 255, 0.25);
+}
+.profile-img-container:active {
+    transform: scale(0.97);
+}
+.profile-img-container::after {
+    content: "\f00e";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 28px;
+    height: 28px;
+    background: var(--primary-color);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    transform: scale(0.6);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    border: 2px solid var(--app-bg);
+}
+.profile-img-container:hover::after {
+    opacity: 1;
+    transform: scale(1);
 }
 .profile-img {
     width: 100%;
@@ -143,6 +180,7 @@ body {
     object-fit: cover;
     border-radius: 50%;
     border: 3px solid var(--app-bg);
+    display: block;
 }
 .name {
     font-size: 1.6rem;
@@ -622,4 +660,117 @@ body {
 
 .nav-item.active {
     color: var(--primary-color);
+}
+
+/* --- FULLSCREEN IMAGE POPUP MODAL --- */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+}
+
+.image-modal.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.image-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    cursor: pointer;
+}
+
+.image-modal-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90vw;
+    max-height: 85vh;
+    transform: scale(0.65) translateY(30px);
+    opacity: 0;
+    transition: transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.28s ease;
+}
+
+.image-modal.active .image-modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+.image-modal-close {
+    position: absolute;
+    top: -46px;
+    right: 0;
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.image-modal-close:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.12);
+}
+
+.image-modal-close:active {
+    transform: scale(0.92);
+}
+
+.image-modal-wrapper {
+    overflow: hidden;
+    border-radius: 26px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(255, 255, 255, 0.18);
+    max-width: 380px;
+    background: #000000;
+}
+
+.modal-preview-img {
+    display: block;
+    width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: 26px;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.image-modal-caption {
+    margin-top: 14px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 6px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }

@@ -389,6 +389,52 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Fullscreen Profile Image Modal Logic ---
+    const imageModal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const closeImageModalBtn = document.getElementById('closeImageModal');
+    const imageModalBackdrop = document.getElementById('imageModalBackdrop');
+    const profileImgContainers = document.querySelectorAll('.profile-img-container');
+
+    function openImageModal(imgSrc) {
+        if (!imageModal) return;
+        if (modalImage && imgSrc) {
+            modalImage.src = imgSrc;
+        }
+        imageModal.classList.add('active');
+        imageModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageModal() {
+        if (!imageModal) return;
+        imageModal.classList.remove('active');
+        imageModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    profileImgContainers.forEach(container => {
+        container.addEventListener('click', () => {
+            const img = container.querySelector('.profile-img');
+            const src = img ? img.src : 'images/profile.jpg';
+            openImageModal(src);
+        });
+    });
+
+    if (closeImageModalBtn) {
+        closeImageModalBtn.addEventListener('click', closeImageModal);
+    }
+
+    if (imageModalBackdrop) {
+        imageModalBackdrop.addEventListener('click', closeImageModal);
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && imageModal && imageModal.classList.contains('active')) {
+            closeImageModal();
+        }
+    });
+
     // --- Download vCard ---
     const downloadVCardBtn = document.getElementById('downloadVCard');
     downloadVCardBtn.addEventListener('click', () => {
